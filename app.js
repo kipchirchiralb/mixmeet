@@ -1,26 +1,22 @@
-// const express = require("express")
-const mysql = require("mysql")
-// const app = express()
-const app = require("express")()
-require("./services/main")
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "mixmeet"
-})
-db.connect((err)=>{
-    if(err){
-        console.log(err)
-    }else{
-        console.log("db conn successful(app)")
-    }
-})
+const express = require("express")
+const app = express()
 
+require("./services/main")
+
+app.set("view engine", "ejs")
+app.use(express.static("public"))
 
 
 app.get("/", (req,res)=>{
-    res.send("MixMeet")
+    res.render("index")
+})
+
+app.get("/sign-in", (req,res)=>{
+    res.render("sign-in")
+})
+
+app.get("/sign-up", (req,res)=>{
+    res.render("sign-up")
 })
 
 app.listen(3001, ()=>{
