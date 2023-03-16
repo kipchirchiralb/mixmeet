@@ -24,6 +24,28 @@ app.get("/", (req,res)=>{
 app.get("/sign-in", (req,res)=>{
     res.render("sign-in")
 })
+app.post("/sign-in", (req,res)=>{
+    // confirm that email is registered
+    // compare password provided with the hash in db
+    db.query("SELECT email,password FROM users WHERE email = ?",[req.body.email],(error,results)=>{
+        // handle error
+        if(results.length>0){
+            //proceed
+            bcrypt.compare(req.body.password, results[0].password, (err,match)=>{
+                if(match){
+                    // create session
+                    res.redirect("/")
+                }else{
+                    res.render("sign-in", {error: true, errorMessage: "Incorrect Password"})
+                }
+            })
+        }else{
+            res.render("sign-in", {error: true, errorMessage: "Email not registered."})
+        }
+    })
+})
+
+// reset password using OTP- emails,text messages
 
 app.get("/sign-up", (req,res)=>{
     res.render("sign-up")
@@ -35,20 +57,16 @@ app.post("/sign-up", (req,res)=>{
     // check if email is already used/ existing ** 
     // encrypt password / create a hash **
     // store all details in db - insert statement
-    console.log(req.body)
+    // console.log(req.body)
     if(req.body.password === req.body.confirm){
-        // proceed
-
         db.query("SELECT email FROM users WHERE email = ?", [req.body.email], (err, results)=>{
             if(results.length>0){
                 // email exist in db
                 res.render("sign-up", {error: true, errorMessage: "Email already exists. Use another or login"})
             }else{
-                //proceed
                 bcrypt.hash(req.body.password, 4, function(err, hash){
                     // we have access to the hashed pass as hash
                     db.query("INSERT INTO users(username,email,password,image_link,bio) values(?,?,?,?,?)", [req.body.username,req.body.email,hash,"image.png",req.body.bio ], (error)=>{
-                        // end
                         if(error){
                             res.render("sign-up", {error: true, errorMessage: "Contact Admin, and tell them something very terrible is going on in the server"})
                         }else{
@@ -62,9 +80,6 @@ app.post("/sign-up", (req,res)=>{
         res.render("sign-up", {error: true, errorMessage: "Password and confirm Password do not match"})
     }
 })
-
-
-
 app.listen(3001, ()=>{
     console.log("app running!!...")
 })
