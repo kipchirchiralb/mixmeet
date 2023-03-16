@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Mixmeet</title>
     <link rel="stylesheet" href="./css/index.css">
-    <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
 </head>
 
 <body>
@@ -20,27 +20,32 @@
     </header>
     <main>
         <h1>Sign Up</h1>
-        <form action="/sign-up" method="post">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username">
+        <%if(locals.error){%>
+            <p style="color: orangered">
+                <%=errorMessage%>
+            </p>
+            <%}%>
+                <form action="/sign-up" method="post">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username">
 
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email">
 
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password">
 
-            <label for="confirm">Confirm Password</label>
-            <input type="password" name="confirm" id="confirm">
+                    <label for="confirm">Confirm Password</label>
+                    <input type="password" name="confirm" id="confirm">
 
-            <label for="image">Profile Image</label>
-            <input type="file" name="image" id="image">
+                    <label for="image">Profile Image</label>
+                    <input type="file" name="image" id="image">
 
-            <label for="bio">Biography </label>
-            <textarea name="bio" id="bio" cols="30" rows="10"></textarea>
+                    <label for="bio">Biography </label>
+                    <textarea name="bio" id="bio" cols="30" rows="10"></textarea>
 
-            <input type="submit" value="Sign In">
-        </form>
+                    <input type="submit" value="Sign In">
+                </form>
     </main>
     <footer>
         &copy; Mixmeet @ <%=new Date().getFullYear()%>
