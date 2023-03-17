@@ -1,5 +1,6 @@
 const express = require("express")
 const bcrypt = require("bcrypt")
+const session = require("express-session")
 
 const app = express()
 
@@ -8,6 +9,11 @@ require("./services/main")
 app.set("view engine", "ejs")
 app.use(express.static("public"))
 app.use(express.urlencoded({extended: false}))
+app.use(session({
+    secret: 'keyboardcat',
+    resave: false,
+    saveUninitialized: true
+  }))
 
 //method chaining
 const db = require("mysql").createConnection({
@@ -18,22 +24,36 @@ const db = require("mysql").createConnection({
 })
 
 app.get("/", (req,res)=>{
-    res.render("index")
+    if(req.session.user){
+        res.render("home", {user: req.session.user})
+    }else{
+        res.render("index")
+    }
 })
 
 app.get("/sign-in", (req,res)=>{
     res.render("sign-in")
 })
+
+app.get("/sign-out", (req,res)=>{
+    req.session.destroy(() => {
+        res.redirect("/");
+      });
+})
+
 app.post("/sign-in", (req,res)=>{
     // confirm that email is registered
     // compare password provided with the hash in db
-    db.query("SELECT email,password FROM users WHERE email = ?",[req.body.email],(error,results)=>{
+    db.query("SELECT * FROM users WHERE email = ?",[req.body.email],(error,results)=>{
         // handle error
         if(results.length>0){
             //proceed
             bcrypt.compare(req.body.password, results[0].password, (err,match)=>{
                 if(match){
                     // create session
+                    // console.log(results)
+                    req.session.user = results[0]
+                    // console.log(req.sessionID)
                     res.redirect("/")
                 }else{
                     res.render("sign-in", {error: true, errorMessage: "Incorrect Password"})
