@@ -66,9 +66,21 @@ app.post("/sign-in", (req,res)=>{
 })
 
 // reset password using OTP- emails,text messages
+// postman
 
 app.get("/sign-up", (req,res)=>{
     res.render("sign-up")
+})
+
+app.get("/all-users", (req,res)=>{
+    if(req.session.user){
+        db.query("SELECT * FROM users", (err,result)=>{
+            res.json(result)    
+        })
+    }else{
+        res.json({error: "Log in"})
+    }
+   
 })
 
 app.post("/sign-up", (req,res)=>{

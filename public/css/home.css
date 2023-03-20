@@ -1,0 +1,41 @@
+/* header */
+
+.current-username{
+    font-size: 20px;
+}
+
+.current-user-nav-btn{
+    height: 40px;
+    background: transparent;
+    border: none;
+    position: relative;
+}
+.current-user-nav-btn img{
+    height: 100%;
+}
+.notification-count-main{
+    background-color: orangered;
+    color: white;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    padding-top: 3px;
+    position: absolute;
+    top: -5px;
+    right: -10px;
+}
+
+.user-modal{
+    display: none;
+}
+
+
+/* main */
+main{
+    max-width: 700px;
+    margin: 0 auto;
+}
+/* post  */
+.post-image{
+    width: 100%;
+}

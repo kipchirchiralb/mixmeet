@@ -5,24 +5,67 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MixMeet | Eldohub Techies Social Platform </title>
+    <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/home.css">
 </head>
 
 <body>
-    <h1>Home page</h1>
-    <a href="/sign-out">Sign Out</a>
+    <header>
+        <img src="./images/logo.png" alt="mixmeet logo" class="logo">
+        <nav>
+            <span class="current-username">
+                <%=user.username%>
+            </span>
+            <button class="current-user-nav-btn">
+                <img src="./images/user.svg" alt="user icon">
+                <!-- actual profile image -->
+                <span class="notification-count-main">3</span>
+            </button>
+            <div class="user-modal">
+                <p>
+                    <%=user.bio%>
+                </p>
+                <a href="./mesages">Messages<span class="notification-count">3</span></a>
+                <a href="/invite-friend">Invite Friend</a>
+                <a href="/update-profile">Update Profile</a>
+                <a href="/sign-out">Sign Out</a>
+            </div>
+        </nav>
+    </header>
+
     <main>
-        <h2>
-            <%=user.username%>
-        </h2>
-        <p>
-            <%=user.bio%>
-        </p>
-        <p>
-            <%=user.image_link%>
-        </p>
-        <img src="./images/<%=user.image_link%>" width="150px" alt="profile image">
+        <h2>Recent Posts</h2>
+        <div class="posts">
+            <div class="post">
+                <p><img src="" alt="post owner"> post owner name </p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla doloribus tempora molestiae adipisci,
+                    deserunt magni doloremque deleniti? Laborum aliquid numquam, provident facere enim ipsam, explicabo
+                    repellat quis aut ratione fugit?</p>
+                <img class="post-image" src="./images/image.png" alt="post image">
+                <div class="post-info">
+                    <span>Thursday 24th July 2023</span>
+                    <span>likes 30</span>
+                    <span>comments 3</span>
+                    <span>share 10</span>
+                </div>
+            </div>
+        </div>
     </main>
+    <footer>
+        &copy; Mixmeet @ <%=new Date().getFullYear()%>
+    </footer>
+
+    <script>
+        fetch("/all-users").then(res => res.json()).then(users => {
+            users.forEach(user => {
+                let li = document.createElement("li")
+                li.innerHTML = `<span style="font-weight: bold;"> ${user.username}</span> ---<span>${user.bio}</span>`
+                document.querySelector(".all-users").append(li)
+            })
+        })
+    </script>
 </body>
 
 </html>
