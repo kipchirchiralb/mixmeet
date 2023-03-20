@@ -5,16 +5,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MixMeet | Eldohub Techies Social Platform </title>
+    <meta name="description"
+        content="MIXMEET is Eldohub's social platform designed for techies to connect, share knowledge and collaborate on projects." />
+    <meta name="keywords" content="MIXMEET, Eldohub, techies, social platform, connect, collaborate, projects" />
+    <meta name="author" content="Eldohub" />
+
+    <title>MIXMEET - Eldohub's Techies Social Platform</title>
+
     <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./css/home.css">
+    <script src="./scripts/main.js" defer></script>
 </head>
 
 <body>
     <header>
         <img src="./images/logo.png" alt="mixmeet logo" class="logo">
-        <nav>
+        <nav class="main-nav">
             <span class="current-username">
                 <%=user.username%>
             </span>
@@ -23,14 +30,14 @@
                 <!-- actual profile image -->
                 <span class="notification-count-main">3</span>
             </button>
-            <div class="user-modal">
+            <div class="user-modal hide">
                 <p>
                     <%=user.bio%>
                 </p>
-                <a href="./mesages">Messages<span class="notification-count">3</span></a>
+                <a href="./mesages">Messages<span class="notification-count-messages">3</span></a>
                 <a href="/invite-friend">Invite Friend</a>
                 <a href="/update-profile">Update Profile</a>
-                <a href="/sign-out">Sign Out</a>
+                <a href="/sign-out" class="sign-out-btn">Sign Out</a>
             </div>
         </nav>
     </header>

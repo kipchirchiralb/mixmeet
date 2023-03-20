@@ -25,6 +25,10 @@ input, textarea, label{
 label{
     text-align: left;
 }
+/* utility classes */
+.hide{
+    display: none;
+}
 /* body */
 body{
     font-family: sans-serif;
