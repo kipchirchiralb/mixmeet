@@ -5,12 +5,17 @@
 
 .current-user-nav-btn{
     height: 40px;
+    width: 40px;
     background: transparent;
     border: none;
     position: relative;
+    border-radius: 50%;
 }
 .current-user-nav-btn img{
+    width: 100%;
     height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
 }
 .notification-count-main{
     background-color: orangered;
@@ -72,6 +77,13 @@ main{
     margin: 0 auto;
 }
 /* post  */
+.post-owner-image{
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+
+}
+.post-owner-name{}
 .post-image{
     width: 100%;
 }

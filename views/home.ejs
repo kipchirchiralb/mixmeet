@@ -26,7 +26,7 @@
                 <%=user.username%>
             </span>
             <button class="current-user-nav-btn">
-                <img src="./images/user.svg" alt="user icon">
+                <img src="./images/profiles/<%=user.image_link%>" alt="user icon">
                 <!-- actual profile image -->
                 <span class="notification-count-main">3</span>
             </button>
@@ -46,16 +46,25 @@
         <h2>Recent Posts</h2>
         <div class="posts">
             <div class="post">
-                <p><img src="" alt="post owner"> post owner name </p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla doloribus tempora molestiae adipisci,
-                    deserunt magni doloremque deleniti? Laborum aliquid numquam, provident facere enim ipsam, explicabo
-                    repellat quis aut ratione fugit?</p>
-                <img class="post-image" src="./images/image.png" alt="post image">
-                <div class="post-info">
-                    <span>Thursday 24th July 2023</span>
-                    <span>likes 30</span>
-                    <span>comments 3</span>
-                    <span>share 10</span>
+                <div class="post-header">
+                    <img class="post-owner-image" src="" alt="post owner">
+                    <div>
+                        <p class="post-owner-name">Albert</p>
+                        <p class="post-owner-title">Software Developer</p>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <p class="post-message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla doloribus
+                        tempora molrepellat quis aut ratione fugit?</p>
+                    <img class="post-image" src="./images/image.png" alt="post image">
+                </div>
+                <div class="post-footer">
+                    <div class="post-footer-icons">
+                        <img src="./images/chatbox-outline.svg" alt="chatbox icon">
+                        <img src="thumbs-up-outline.svg" alt="thumbs up icon">
+                        <img src="./images/share-social-outline.svg" alt="share icon">
+                    </div>
+                    <span class="post-footer-timeline">Thursday 24th July 2023</span>
                 </div>
             </div>
         </div>

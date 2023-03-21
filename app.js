@@ -1,6 +1,7 @@
 const express = require("express")
 const bcrypt = require("bcrypt")
 const session = require("express-session")
+const multer  = require('multer')
 
 const app = express()
 
@@ -22,7 +23,19 @@ const db = require("mysql").createConnection({
     password: "",
     database: "mixmeet"
 })
+//multer js code
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, __dirname+'/public/images/profiles')
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      cb(null, file.fieldname + '-' + uniqueSuffix+"-"+file.originalname)
+    }
+  })
+const upload = multer({ storage: storage })
 
+// momment js , Intl formatting-- 
 app.get("/", (req,res)=>{
     if(req.session.user){
         res.render("home", {user: req.session.user})
@@ -83,13 +96,15 @@ app.get("/all-users", (req,res)=>{
    
 })
 
-app.post("/sign-up", (req,res)=>{
+app.post("/sign-up", upload.single("image"), (req,res)=>{
     // get data - body-parser **
     // check if confirm pass & password match **
     // check if email is already used/ existing ** 
     // encrypt password / create a hash **
     // store all details in db - insert statement
     // console.log(req.body)
+    // console.log(req.file)
+    let fileType = req.file.mimetype.slice(req.file.mimetype.indexOf("/")+1)
     if(req.body.password === req.body.confirm){
         db.query("SELECT email FROM users WHERE email = ?", [req.body.email], (err, results)=>{
             if(results.length>0){
@@ -98,7 +113,7 @@ app.post("/sign-up", (req,res)=>{
             }else{
                 bcrypt.hash(req.body.password, 4, function(err, hash){
                     // we have access to the hashed pass as hash
-                    db.query("INSERT INTO users(username,email,password,image_link,bio) values(?,?,?,?,?)", [req.body.username,req.body.email,hash,"image.png",req.body.bio ], (error)=>{
+                    db.query("INSERT INTO users(username,email,password,image_link,image_type,bio) values(?,?,?,?,?,?)", [req.body.username,req.body.email,hash,req.file.filename,fileType,req.body.bio ], (error)=>{
                         if(error){
                             res.render("sign-up", {error: true, errorMessage: "Contact Admin, and tell them something very terrible is going on in the server"})
                         }else{
