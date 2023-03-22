@@ -43,12 +43,23 @@
     </header>
 
     <main>
-        <h2>Recent Posts</h2>
+        <div class="page-title">
+            <h2>Recent Posts </h2>
+            <button class="new-post">+ new post</button>
+        </div>
+        <form action="/new-post" method="post" class="new-post-form hide">
+            <textarea name="post" id="post" cols="30" rows="10"></textarea>
+            <div>
+                <input type="file" name="image" id="image">
+                <input type="submit" value="Post">
+            </div>
+        </form>
+
         <div class="posts">
             <div class="post">
                 <div class="post-header">
                     <img class="post-owner-image" src="" alt="post owner">
-                    <div>
+                    <div class="post-header-text">
                         <p class="post-owner-name">Albert</p>
                         <p class="post-owner-title">Software Developer</p>
                     </div>
@@ -61,12 +72,18 @@
                 <div class="post-footer">
                     <div class="post-footer-icons">
                         <img src="./images/chatbox-outline.svg" alt="chatbox icon">
-                        <img src="thumbs-up-outline.svg" alt="thumbs up icon">
+                        <span class="notification-count">13 coments</span>
+                        <img src="./images/thumbs-up-outline.svg" alt="thumbs up icon">
+                        <span class="notification-count">103 likes</span>
                         <img src="./images/share-social-outline.svg" alt="share icon">
+                        <span class="notification-count">11 shares</span>
                     </div>
                     <span class="post-footer-timeline">Thursday 24th July 2023</span>
                 </div>
             </div>
+
+
+
         </div>
     </main>
     <footer>

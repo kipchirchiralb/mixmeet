@@ -37,6 +37,7 @@ body{
     flex-direction: column;
     justify-content: space-between;
     text-align: center;
+    color: #0b2249;
 }
 /* header */
 header{
