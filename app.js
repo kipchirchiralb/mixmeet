@@ -35,12 +35,18 @@ const storage = multer.diskStorage({
     cb(null, file.fieldname + "-" + uniqueSuffix + "-" + file.originalname);
   },
 });
+
 const upload = multer({ storage: storage });
 
 // momment js , Intl formatting--
 app.get("/", (req, res) => {
   if (req.session.user) {
-    res.render("home", { user: req.session.user });
+    // sql joins - create join to get both users and posts in the the same query - you get one result array
+    db.query("SELECT * FROM  users", (error,allUsers)=>{
+        db.query("SELECT * FROM posts", (error,allPosts)=>{
+          res.render("home", { user: req.session.user, users: allUsers, posts: allPosts });
+        })
+    })
   } else {
     res.render("index");
   }
@@ -163,6 +169,21 @@ app.post("/sign-up", upload.single("image"), (req, res) => {
     });
   }
 });
+
+app.post("/new-post" ,upload.single("image"), (req,res)=>{
+  if(req.session.user){
+      db.query("INSERT INTO posts(post_message, post_image_link, post_owner_id) VALUES(?,?,?)", [req.body.post, req.file.filename, req.session.user.user_id], (err)=>{
+        if(!err){
+          res.redirect("/")
+        }else{
+          res.send("Contact admin - - sql error")
+        }
+      })
+  }else{
+    res.render("sign-in")
+  }
+})
+
 app.listen(3001, () => {
   console.log("app running!!...");
 });

@@ -47,7 +47,7 @@
             <h2>Recent Posts </h2>
             <button class="new-post">+ new post</button>
         </div>
-        <form action="/new-post" method="post" class="new-post-form hide">
+        <form action="/new-post" method="post" class="new-post-form hide" enctype="multipart/form-data">
             <textarea name="post" id="post" cols="30" rows="10"></textarea>
             <div>
                 <input type="file" name="image" id="image">
@@ -56,32 +56,44 @@
         </form>
 
         <div class="posts">
-            <div class="post">
-                <div class="post-header">
-                    <img class="post-owner-image" src="" alt="post owner">
-                    <div class="post-header-text">
-                        <p class="post-owner-name">Albert</p>
-                        <p class="post-owner-title">Software Developer</p>
-                    </div>
-                </div>
-                <div class="post-body">
-                    <p class="post-message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla doloribus
-                        tempora molrepellat quis aut ratione fugit?</p>
-                    <img class="post-image" src="./images/image.png" alt="post image">
-                </div>
-                <div class="post-footer">
-                    <div class="post-footer-icons">
-                        <img src="./images/chatbox-outline.svg" alt="chatbox icon">
-                        <span class="notification-count">13 coments</span>
-                        <img src="./images/thumbs-up-outline.svg" alt="thumbs up icon">
-                        <span class="notification-count">103 likes</span>
-                        <img src="./images/share-social-outline.svg" alt="share icon">
-                        <span class="notification-count">11 shares</span>
-                    </div>
-                    <span class="post-footer-timeline">Thursday 24th July 2023</span>
-                </div>
-            </div>
-
+            <%posts.reverse()%>
+                <%posts.forEach(post=>{%>
+                    <%let postOwner=users.find(user=>user.user_id === post.post_owner_id)%>
+                        <div class="post">
+                            <div class="post-header">
+                                <img class="post-owner-image" src="./images/profiles/<%=postOwner.image_link%>"
+                                    alt="<%=postOwner.username%>">
+                                <div class="post-header-text">
+                                    <p class="post-owner-name">
+                                        <%=postOwner.username%>
+                                    </p>
+                                    <p class="post-owner-title">
+                                        <%=postOwner.bio%>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="post-body">
+                                <p class="post-message">
+                                    <%=post.post_message%>
+                                </p>
+                                <img class="post-image" src="./images/profiles/<%=post.post_image_link%>"
+                                    alt="post image">
+                            </div>
+                            <div class="post-footer">
+                                <div class="post-footer-icons">
+                                    <img src="./images/chatbox-outline.svg" alt="chatbox icon">
+                                    <span class="notification-count">13 coments</span>
+                                    <img src="./images/thumbs-up-outline.svg" alt="thumbs up icon">
+                                    <span class="notification-count">103 likes</span>
+                                    <img src="./images/share-social-outline.svg" alt="share icon">
+                                    <span class="notification-count">11 shares</span>
+                                </div>
+                                <span class="post-footer-timeline">
+                                    <%=post.date_created%>
+                                </span>
+                            </div>
+                        </div>
+                        <%})%>
 
 
         </div>

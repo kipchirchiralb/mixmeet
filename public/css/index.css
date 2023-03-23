@@ -46,6 +46,7 @@ header{
     align-items: center;
     padding: 10px 100px;
 }
+
 header img{
     height: 100px;
 }
@@ -73,4 +74,11 @@ footer{
     max-width: 1150px;
     margin: 0 auto;
     padding: 20px 0px;
+}
+
+
+@media screen and (max-width: 680px) {
+    header{
+        padding: 10px 16px;
+    }
 }
