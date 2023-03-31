@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const multer = require("multer");
+const moment = require("moment")
 
 const app = express();
 
@@ -40,10 +41,15 @@ const upload = multer({ storage: storage });
 
 // momment js , Intl formatting--
 app.get("/", (req, res) => {
+  console.log(__dirname )
   if (req.session.user) {
     // sql joins - create join to get both users and posts in the the same query - you get one result array
     db.query("SELECT * FROM  users", (error,allUsers)=>{
         db.query("SELECT * FROM posts", (error,allPosts)=>{
+          // format dates using moment js
+          allPosts.forEach(post=>{
+            post.date_created = moment(new Date(post.date_created)).fromNow()
+          })
           res.render("home", { user: req.session.user, users: allUsers, posts: allPosts });
         })
     })
@@ -62,9 +68,11 @@ app.get("/sign-out", (req, res) => {
   });
 });
 
+
 app.post("/sign-in", (req, res) => {
   // confirm that email is registered
   // compare password provided with the hash in db
+ 
   db.query(
     "SELECT * FROM users WHERE email = ?",
     [req.body.email],
@@ -120,8 +128,10 @@ app.post("/sign-up", upload.single("image"), (req, res) => {
   // encrypt password / create a hash **
   // store all details in db - insert statement
   // console.log(req.body)
-  // console.log(req.file)
+  const host = req.hostname;
   let fileType = req.file.mimetype.slice(req.file.mimetype.indexOf("/") + 1);
+  const filePath = req.protocol + "://" + req.hostname + '/images/profiles/' + req.file.filename 
+  console.log(filePath)
   if (req.body.password === req.body.confirm) {
     db.query(
       "SELECT email FROM users WHERE email = ?",
